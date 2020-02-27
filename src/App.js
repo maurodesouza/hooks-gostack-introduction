@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -10,6 +10,16 @@ function App() {
     setTasks([...tasks, newtask]);
     setNewTask('');
   };
+
+  useEffect(() => {
+    const storageTasks = localStorage.getItem('tasks');
+
+    if (storageTasks) setTasks(JSON.parse(storageTasks));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <form onSubmit={handleSubmit}>
