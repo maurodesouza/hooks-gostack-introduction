@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import './App.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -28,21 +29,31 @@ function App() {
     return tasks.length;
   }, [tasks]);
 
+  const onDelete = index => {
+    setTasks(tasks.filter((_, i) => i !== index));
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <ul>
-        {tasks.map(task => (
-          <li key={`${task}${Math.random()}`}>{task}</li>
+        {tasks.map((task, index) => (
+          <li key={`${task}${Math.random()}`}>
+            {task}
+            <button type="button" onClick={() => onDelete(index)}>
+              Remover
+            </button>
+          </li>
         ))}
       </ul>
-      <strong>{tasksSize}</strong>
-      <br />
-      <input
-        type="text"
-        value={newTask}
-        onChange={e => setNewTask(e.target.value)}
-      />
-      <button type="submit"> Adicionar </button>
+      <div>
+        <strong>{tasksSize}</strong>
+        <input
+          type="text"
+          value={newTask}
+          onChange={e => setNewTask(e.target.value)}
+        />
+        <button type="submit"> Adicionar </button>
+      </div>
     </form>
   );
 }
