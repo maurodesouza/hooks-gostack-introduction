@@ -1,15 +1,18 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [newtask, setNewTask] = useState([]);
+  const [newTask, setNewTask] = useState([]);
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    e => {
+      e.preventDefault();
 
-    setTasks([...tasks, newtask]);
-    setNewTask('');
-  };
+      setTasks([...tasks, newTask]);
+      setNewTask('');
+    },
+    [tasks, newTask]
+  );
 
   useEffect(() => {
     const storageTasks = localStorage.getItem('tasks');
@@ -36,7 +39,7 @@ function App() {
       <br />
       <input
         type="text"
-        value={newtask}
+        value={newTask}
         onChange={e => setNewTask(e.target.value)}
       />
       <button type="submit"> Adicionar </button>
