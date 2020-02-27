@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -21,6 +21,10 @@ function App() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
+  const tasksSize = useMemo(() => {
+    return tasks.length;
+  }, [tasks]);
+
   return (
     <form onSubmit={handleSubmit}>
       <ul>
@@ -28,6 +32,8 @@ function App() {
           <li key={`${task}${Math.random()}`}>{task}</li>
         ))}
       </ul>
+      <strong>{tasksSize}</strong>
+      <br />
       <input
         type="text"
         value={newtask}
